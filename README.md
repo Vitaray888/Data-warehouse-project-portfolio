@@ -87,19 +87,19 @@ The warehouse is structured into three logical layers:
 ---
 
 ## Repository Structure
-**bronze**
+**Bronze**
 - raw ingestion scripts
 
-**silver**
+**Silver**
 - transformation scripts
 - cleansing logic
 - quality checks
 
-**gold**
+**Gold**
 - dimensional model DDL
 - fact & dimension views
 
-**docs**
+**Docs**
 - data catalog
 - naming conventions
 - architecture documentation
@@ -174,10 +174,11 @@ Viewing is permitted; copying, modifying, or redistributing the code is not allo
 
 ## About Me
 
-Hi, I'm **Crystal** (aka Vitaray888), an AI Data Engineer focused on solving real-world problems through intelligent systems and advanced data solutions.
+Hi, I'm **Crystal** (aka Vitaray888), an AI Systems Engineer focused on solving real-world problems through intelligent systems and advanced data solutions.
 
 My work spans:
 
+- Data Engineering
 - Data Architecture
 - Advanced Analytics
 - AI-Driven Modeling
