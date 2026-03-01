@@ -191,4 +191,4 @@ I focus on building scalable, production-grade systems that bridge structured da
 ## Contact
 
 If you're interested in discussing data architecture, AI systems, or collaboration opportunities, feel free to connect
-- 📧 Connect with me: [crystal@example.com](mailto:crystal@example.com)
+- 📧 Connect with me: [Email me](mailto:crystajl@crystal888.com?subject=Portfolio%20Inquiry)
