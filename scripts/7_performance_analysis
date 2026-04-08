@@ -1,0 +1,73 @@
+## Performance Analysis
+
+### Definition
+Performance Analysis evaluates how effectively business processes, teams, or products are achieving their objectives.  
+
+It compares actual outcomes against predefined targets or benchmarks.  
+**Comparing the current value to a target values.**
+
+---
+
+### Purpose
+- Measure efficiency, productivity, and effectiveness of operations  
+- Identify high-performing and underperforming areas  
+- Support strategic decision-making through actionable insights  
+
+---
+
+### Why It’s Used
+- Helps management allocate resources to areas with the greatest impact  
+- Enables continuous improvement by highlighting strengths and weaknesses  
+- Facilitates KPI tracking, benchmarking, and operational reporting  
+
+---
+
+### Formula
+
+**Examples:**
+- Performance = Current Sales - Target Sales  
+- Current Year Sales - Previous Year Sales (YoY Analysis)  
+
+-- *** ADVANCED SALES ANALYSIS ***
+-- Performance Analysis
+/* 
+	Analyze the yearly performance of products by comparing each prdocut'sales to both 
+   its average sales performance and the previous year's sales
+*/
+
+WITH Yearly_Product_Sales AS (
+
+SELECT
+	YEAR(f.order_date) AS Order_Year,
+	p.product_name,
+	SUM(f.sales_amount) AS Current_sales
+FROM
+	Gold.fact_sales f
+LEFT JOIN
+	Gold.dim_products p ON f.product_key = p.product_key
+
+WHERE order_date IS NOT NULL
+GROUP BY YEAR(f.order_date), p.product_name
+
+)
+	
+SELECT
+Order_Year,
+product_name,
+Current_sales,
+AVG(Current_sales) OVER (PARTITION BY product_name) avg_sales,
+Current_sales - AVG(Current_sales) OVER (PARTITION BY product_name) AS avg_diff,
+
+CASE WHEN Current_sales - AVG(Current_sales) OVER (PARTITION BY product_name) > 0 THEN 'Above Average'
+	 WHEN Current_sales - AVG(Current_sales) OVER (PARTITION BY product_name)  < 0 THEN 'Below Average'
+ELSE 'Average' END avg_Change,
+
+LAG(Current_sales) OVER (PARTITION BY product_name ORDER BY order_year) AS py_sales,
+Current_sales - LAG(Current_sales) OVER (PARTITION BY product_name ORDER BY order_year) AS diff_Prev_Year,
+
+CASE WHEN Current_sales - AVG(Current_sales) OVER (PARTITION BY product_name ORDER BY order_year)  > 0 THEN 'Increase'
+	 WHEN Current_sales - AVG(Current_sales) OVER (PARTITION BY product_name ORDER BY order_year)  < 0 THEN 'Decrease'
+ELSE 'No Change' END Py_Change
+
+FROM Yearly_Product_Sales
+ORDER BY product_name, Order_Year
