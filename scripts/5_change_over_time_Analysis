@@ -1,0 +1,52 @@
+## Change Over Time Analysis
+
+### Definition
+Change Over Time Analysis evaluates how key metrics evolve over a defined time period.  
+
+It tracks:
+- Trends  
+- Patterns  
+- Growth, decline, or seasonality in business data  
+
+---
+
+### Purpose
+- Monitor performance and behavior across days, months, or years  
+- Detect emerging trends or anomalies early  
+- Support data-driven decision-making by comparing historical and current performance  
+
+---
+
+### Why It’s Used
+- Provides actionable insights into business dynamics  
+  *(e.g., sales growth, customer engagement)*  
+- Helps management identify opportunities or risks before they become critical  
+- Forms the foundation for forecasting and predictive analytics  
+
+---
+
+### Formula
+
+**Examples:**
+- Total Sales by Year  
+- Average Cost by Month  
+
+-- Advanced Data analysis
+-- -Change Over Time
+-- -A high-level overview insights that helps with strategic decision-making
+
+SELECT
+	--YEAR(order_date) as Order_Year,
+	--MONTH(order_date) as Order_Month,
+	DATETRUNC(MONTH, order_date) as Order_Date,
+	SUM(sales_amount) as Total_Sales,
+	COUNT(DISTINCT customer_key) as Total_Customers,
+	SUM(quantity) as Total_Quantity
+FROM
+	Gold.fact_sales
+WHERE order_date IS NOT NULL
+
+GROUP BY
+	DATETRUNC(MONTH, order_date) --YEAR(order_date), MONTH(order_date)
+
+ORDER BY DATETRUNC(MONTH, order_date) -- YEAR(order_date), MONTH(order_date)
