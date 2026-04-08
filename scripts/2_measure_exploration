@@ -1,3 +1,53 @@
+## Measure Exploration
+
+### Definition
+Measure Exploration is the process of analyzing numeric, quantitative, or fact data in a data warehouse to ensure **accuracy, consistency, and suitability for reporting and analytics**.  
+
+Measures typically represent business metrics such as:
+- Sales amount  
+- Quantity  
+- Cost  
+- Revenue  
+
+---
+
+### Purpose
+- Validate data correctness for numeric fields in fact tables  
+- Identify outliers, anomalies, or negative values that may indicate data issues  
+- Understand distributions, ranges, and aggregation behavior of measures  
+- Ensure measures are aligned with business rules and ready for reporting  
+- Support preparation for KPIs, dashboards, and time-series analytics  
+
+---
+
+### Key Activities
+
+1. **Null or Missing Value Check**  
+   Detect missing or null values in measures  
+
+2. **Range & Outlier Analysis**  
+   Identify values outside expected ranges  
+   *(e.g., negative sales amounts)*  
+
+3. **Consistency Verification**  
+   Confirm that measures are consistent with related dimensions  
+   *(e.g., quantity * price = sales amount)*  
+
+4. **Aggregation Check**  
+   Validate that measures can be accurately:
+   - Summed  
+   - Averaged  
+   - Otherwise aggregated  
+
+5. **Data Type Verification**  
+   Ensure numeric measures use the correct data types  
+   *(integer, decimal, currency)* for precision and efficiency  
+
+---
+
+### Outcome
+Measure Exploration guarantees that quantitative data is **trustworthy, reliable, and ready for analysis**, forming the foundation for accurate KPIs, reports, and business intelligence dashboards.
+
 -- Find the Total Sales
 SELECT SUM(sales_amount) AS total_sales FROM Gold.fact_sales
 
