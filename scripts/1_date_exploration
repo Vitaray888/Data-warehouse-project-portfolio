@@ -1,0 +1,18 @@
+-- Date First and Last Order Date
+
+SELECT 
+MIN(order_date) first_order_date,
+MAX(order_date) last_order_date,
+DATEDIFF(year, MIN(order_date), MAX(order_date)) AS order_range_years,
+DATEDIFF(month, MIN(order_date), MAX(order_date)) AS order_range_months
+
+FROM Gold.fact_sales
+
+-- Date Youngest and Older Customer
+
+SELECT
+MIN(birthdate) AS oldest_birthdate,
+MAX(birthdate) as youngest_birthdate,
+DATEDIFF(year, MIN(birthdate), GETDATE()) AS oldest_age,
+DATEDIFF(year, MAX(birthdate), GETDATE()) AS youngest_age
+FROM Gold.dim_customers
