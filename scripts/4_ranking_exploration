@@ -1,0 +1,91 @@
+## Ranking Analysis
+
+### Definition
+Ranking Analysis is the process of **ordering or prioritizing entities, measures, or dimensions** based on specific metrics to identify **top performers, trends, or business priorities**.  
+
+It is commonly used in reporting and dashboards to highlight:
+- High-value customers  
+- Best-selling products  
+- Critical KPIs  
+
+---
+
+### Purpose
+- Identify **top or bottom performers** across dimensions  
+  *(e.g., customers, products, regions)*  
+- Support **decision-making** by highlighting trends, anomalies, or opportunities  
+- Provide **business insights** into which entities contribute most to key metrics  
+- Detect patterns for **segmentation, targeting, or operational improvements**  
+
+---
+
+### Key Activities
+
+1. **Ranking by Measure**  
+   Sort entities based on numeric measures  
+   *(e.g., sales_amount, quantity, revenue)*  
+
+2. **Percentile or Quartile Analysis**  
+   Determine relative position of each entity within a dataset  
+
+3. **Top-N or Bottom-N Analysis**  
+   Identify the top 5, 10, or 20 performers or laggards  
+
+4. **Tie Handling**  
+   Define rules for handling equal values  
+   *(e.g., dense ranking, rank with gaps)*  
+
+5. **Trend Analysis**  
+   Compare rankings over time to identify improving or declining performers  
+
+---
+
+### Outcome
+Ranking Analysis enables businesses to **quickly identify critical insights, prioritize actions, and focus on high-impact areas**.  
+
+It is particularly valuable for:
+- Dashboards  
+- KPI tracking  
+- Executive reporting  
+
+-- Which 5 Products generate the Highest revenue?
+
+SELECT TOP 5 --(Top N)
+p.product_name,
+SUM(f.sales_amount) total_revenue
+FROM 
+	Gold.fact_sales f
+LEFT JOIN
+	Gold.dim_products p ON p.product_key = f.product_key
+
+GROUP BY p.product_name
+ORDER BY total_revenue DESC
+
+-- Using windows function for more complexity
+SELECT *
+FROM (
+SELECT
+	p.product_name,
+	SUM(f.sales_amount) total_revenue,
+	ROW_NUMBER() OVER (ORDER BY SUM(f.sales_amount) DESC) AS rank_products
+FROM 
+	Gold.fact_sales f
+LEFT JOIN
+	Gold.dim_products p ON p.product_key = f.product_key
+
+GROUP BY p.product_name)t
+
+WHERE rank_products <= 5 
+
+-- What are the 5 worst-performing products in terms of sales?
+
+SELECT TOP 5 --(Top N)
+p.product_name,
+SUM(f.sales_amount) total_revenue
+FROM 
+	Gold.fact_sales f
+LEFT JOIN
+	Gold.dim_products p ON p.product_key = f.product_key
+
+GROUP BY p.product_name
+ORDER BY total_revenue
