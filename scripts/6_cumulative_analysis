@@ -1,0 +1,81 @@
+## Cumulative Analysis
+
+### Definition
+Cumulative Analysis calculates the running total of a metric over time, providing an aggregated view that accumulates values as time progresses.
+
+---
+
+### Purpose
+- Track the overall progress of key metrics across periods  
+- Understand total contribution over time rather than isolated snapshots  
+- Identify trends in growth, accumulation, or depletion of measures  
+
+---
+
+### Why It’s Used
+- Useful for sales, revenue, or production tracking over a year, quarter, or month  
+- Helps stakeholders monitor cumulative performance against goals or targets  
+- Supports forecasting and planning by visualizing ongoing progress  
+
+---
+
+### Formula
+
+**Examples:**
+- Running Total of Sales by Year  
+- Moving Average of Sales by Month  
+
+-- Advanced Data analysis
+-- Cumulative Analysis
+-- Calculate the total sales per month and the running total of salves over time.
+
+SELECT
+	order_date,
+	total_sales,
+
+--  *** WINDOWS FUNCTION ***
+
+-- Running Totals
+	SUM(total_sales) OVER(ORDER BY order_date) AS Running_Total_Sales, -- Keeps Cumulating year-by-year
+	SUM(total_sales) OVER(PARTITION BY order_date ORDER BY order_date) AS NewRunning_Total_Sales, -- Cumulation resets from each New Year
+
+-- Moving Average
+	AVG(Avg_Price) OVER(ORDER BY order_date) AS Moving_agv_price,
+	AVG(Avg_Price) OVER(PARTITION BY order_date ORDER BY order_date) AS NewMoving_agv_price
+
+FROM
+--Sales Table Subquery
+(
+SELECT
+	DATETRUNC(MONTH, order_date) AS Order_date,
+	SUM(sales_amount) AS Total_Sales,
+	AVG(price) AS Avg_Price
+FROM
+	Gold.fact_sales
+
+WHERE order_date IS NOT NULL
+GROUP BY DATETRUNC(month, order_date)
+) t
+
+-- Cumulate By Year (Allot more Clean then previous select query
+
+SELECT
+	order_date,
+	total_sales,
+
+-- WINDOWS FUNCTION
+	SUM(total_sales) OVER(ORDER BY order_date) AS Running_Total_Sales,  -- Keeps Cumulating year-by-year
+	AVG(Avg_Price) OVER(ORDER BY order_date) AS Moving_agv_price -- Keeps Cumulating year-by-year
+FROM
+--Sales Table Subquery
+(
+SELECT
+	DATETRUNC(YEAR, order_date) AS Order_date,
+	SUM(sales_amount) AS Total_Sales,
+	AVG(price) AS Avg_Price
+FROM
+	Gold.fact_sales
+
+WHERE order_date IS NOT NULL
+GROUP BY DATETRUNC(YEAR, order_date)
+) t
