@@ -1,3 +1,35 @@
+## Date Exploration
+
+### Definition
+Date Exploration is the process of **analyzing time-related fields** in a dataset or data warehouse to ensure that **temporal data is accurate, complete, and consistent**.  
+
+Dates are critical in fact tables and dimension tables for:
+- Reporting trends  
+- Aggregations  
+- Time-based analytics  
+
+---
+
+### Purpose
+- Validate the **completeness and correctness** of date fields (e.g., order date, shipping date, birthdate)  
+- Detect **out-of-range, missing, or inconsistent dates**  
+- Identify **seasonal patterns, trends, and anomalies** in time-based data  
+- Support the creation of **time dimension tables** for efficient reporting and analytics  
+
+---
+
+### Key Activities
+
+1. **Null or Missing Date Check**  
+   Identify records where date fields are empty or incorrectly formatted  
+
+2. **Range Validation**  
+   Ensure dates fall within logical and business-relevant periods  
+   *(e.g., sales cannot occur before company launch)*  
+
+3. **Date Order Verification**  
+   Confirm chronological consistency  
+
 -- Date First and Last Order Date
 
 SELECT 
