@@ -1,0 +1,58 @@
+## Data Segmentation
+
+### Definition
+Data Segmentation is the process of dividing a dataset into distinct groups or segments based on shared characteristics, behaviors, or attributes.
+
+---
+
+### Purpose
+- Identify patterns, trends, and relationships within subsets of data  
+- Enable targeted analysis and decision-making for specific groups  
+- Simplify complex datasets for clearer insights  
+
+---
+
+### Why It’s Used
+- Helps businesses understand customer behavior, product performance, or market dynamics at a granular level  
+- Supports personalized marketing, strategic planning, and resource allocation  
+- Enables more accurate forecasting by analyzing segments rather than aggregate data  
+
+---
+
+### Formula
+
+**Examples:**
+- Total Products by Sales Range  
+- Total Customers by Age  
+
+-- *** ADVANCED SALES ANALYSIS ***
+-- Data Segmentation Analysis
+/* 
+([Measure] / Total[Measure]) * 100 by [Dimension]
+
+	(Sales / Total Sales) * 100 by Category
+	(Quantity / Total Quantity) * 100 By Country
+*/
+
+WITH product_segments AS (
+SELECT
+product_key,
+product_name
+cost,
+CASE
+	WHEN cost < 100 THEN 'Below 100'
+	WHEN cost BETWEEN 100 AND 500 THEN '100-500'
+	WHEN cost BETWEEN 500 AND 1000 THEN '50-1000'
+	ELSE 'Above 1000'
+END cost_range
+FROM
+	Gold.dim_products)
+
+SELECT
+cost_range,
+COUNT(product_key) AS total_products
+FROM
+	product_segments
+
+GROUP BY cost_range
+ORDER BY total_products DESC
